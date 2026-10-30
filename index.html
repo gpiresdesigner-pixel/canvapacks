@@ -23,7 +23,7 @@ html{scroll-behavior:smooth}
 html.lp-m .lp-cta{left:75px!important;top:20px!important;width:240px!important;height:48px!important}
 html.lp-m .lp-dep{left:25px!important;top:290px!important;width:340px!important;grid-template-columns:1fr;gap:16px}
 html.lp-m #preco{top:700px!important}
-</style><style>/*lp-list*/
+</style><style>/*mobile-layout*/[data-m-only]{display:none}html:not(.lp-m) [data-m-only]{display:none!important}html{overflow-x:hidden}body{overflow:visible!important}[id^=section-]{overflow-x:clip!important;overflow-y:visible!important}</style><style>/*lp-list*/
 .lp-list{display:flex;gap:30px;align-items:flex-start;font-family:Montserrat,sans-serif;font-size:16px;font-weight:500;color:#54595c;line-height:1.4;text-align:left}
 .lp-list ul{list-style:none;margin:0;padding:0;flex:1 1 0;min-width:0}
 .lp-list li{display:flex;align-items:flex-start;gap:12px;margin:0 0 14px}
@@ -31,7 +31,7 @@ html.lp-m #preco{top:700px!important}
 html.lp-m .lp-list{left:22px!important;top:285px!important;width:346px!important;flex-direction:column;gap:0;font-size:15px}
 html.lp-m .lp-list ul{flex:none;width:100%}
 html.lp-m .lp-list li{margin-bottom:12px}
-</style><style>/*mobile-layout*/[data-m-only]{display:none}html:not(.lp-m) [data-m-only]{display:none!important}html{overflow-x:hidden}body{overflow:visible!important}[id^=section-]{overflow-x:clip!important;overflow-y:visible!important}</style></head><body class="__variable_ebbd44 __variable_b7d10d font-body antialiased"><div hidden=""><!--$--><!--/$--></div><div lang="pt-BR" style="min-height:100vh;background:#FFFFFF;overflow-x:hidden;font-family:var(--font-sans), sans-serif;--lp-font-title:var(--font-sans), sans-serif;--lp-font-body:var(--font-sans), sans-serif"><style>
+</style></head><body class="__variable_ebbd44 __variable_b7d10d font-body antialiased"><div hidden=""><!--$--><!--/$--></div><div lang="pt-BR" style="min-height:100vh;background:#FFFFFF;overflow-x:hidden;font-family:var(--font-sans), sans-serif;--lp-font-title:var(--font-sans), sans-serif;--lp-font-body:var(--font-sans), sans-serif"><style>
       @keyframes lp-anim-fade-center { from{opacity:0} to{opacity:1} }
       @keyframes lp-anim-fade-up { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
       @keyframes lp-anim-fade-down { from{opacity:0;transform:translateY(-30px)} to{opacity:1;transform:translateY(0)} }
@@ -133,4 +133,7 @@ function apply(){var cw=document.documentElement.clientWidth,m=cw<=BP;document.d
   el.style.height=el.style.minHeight=(h*sc)+'px';el._base=h*sc;el._sc=sc});
  if(!m&&window.__faqFit)window.__faqFit()}
 window.__relayout=apply;addEventListener('resize',apply);apply()})();
+</script><script>/*lp-buy*/
+(function(){var U='https://pay.hub.la/Iy7YNAeDPbxXFhsYKxWf';['3ac78a4b','4bd70d50','b43dfc52'].forEach(function(id){var b=document.querySelector('[data-comp-id^="'+id+'"] [role=button]');if(!b)return;b.style.cursor='pointer';
+ function go(){location.href=U}b.addEventListener('click',go);b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}})})})();
 </script></body></html>
