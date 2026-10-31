@@ -39,12 +39,15 @@ function ck(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?dec
 function fbc(){var c=ck('_fbc');if(c)return c;var id=new URLSearchParams(location.search).get('fbclid');return id?'fb.1.'+Date.now()+'.'+id:''}
 function st(){try{return JSON.parse(localStorage.getItem('lp_utms')||'{}')}catch(e){return{}}}
 /* mesmo event_id no pixel e na API de Conversoes: a Meta deduplica */
-window.__lpTrack=function(name,wait){var id='lp'+Date.now().toString(36)+Math.random().toString(36).slice(2,10);
+window.__lpTrack=function(name){var id='lp'+Date.now().toString(36)+Math.random().toString(36).slice(2,10),sent=false;
  try{fbq('track',name,{},{eventID:id})}catch(e){}
- function send(){var u=st(),d={event_name:name,event_id:id,url:location.href,fbp:ck('_fbp'),fbc:fbc()};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(u[k])d[k]=u[k]});
-  try{fetch('/api/meta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d),keepalive:true}).catch(function(){})}catch(e){}}
- if(wait)setTimeout(send,wait);else send()};
-__lpTrack('PageView',800)})();
+ /* API de Conversoes: so depois que a pagina carregou (fora do caminho critico); sendBeacon nao bloqueia nada */
+ function send(){if(sent)return;sent=true;var u=st(),d={event_name:name,event_id:id,url:location.href,fbp:ck('_fbp'),fbc:fbc()};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(u[k])d[k]=u[k]});
+  var j=JSON.stringify(d);try{if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/meta',new Blob([j],{type:'application/json'}))))fetch('/api/meta',{method:'POST',headers:{'Content-Type':'application/json'},body:j,keepalive:true}).catch(function(){})}catch(e){}}
+ function later(){(window.requestIdleCallback||function(f){setTimeout(f,1200)})(send,{timeout:3000})}
+ if(document.readyState==='complete')later();else addEventListener('load',later);
+ addEventListener('pagehide',send)};
+__lpTrack('PageView')})();
 </script></head><body class="__variable_ebbd44 __variable_b7d10d font-body antialiased"><div hidden=""><!--$--><!--/$--></div><div lang="pt-BR" style="min-height:100vh;background:#FFFFFF;overflow-x:hidden;font-family:var(--font-sans), sans-serif;--lp-font-title:var(--font-sans), sans-serif;--lp-font-body:var(--font-sans), sans-serif"><style>
       @keyframes lp-anim-fade-center { from{opacity:0} to{opacity:1} }
       @keyframes lp-anim-fade-up { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
