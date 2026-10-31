@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FeedPacks</title>
-<link rel="icon" href="../assets/feedpacks-logo.png">
+<link rel="icon" href="../assets/feedpacks-logo.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -38,8 +38,8 @@ main,footer{position:relative;z-index:1}
 
 /* nav */
 .nav-wrap{position:fixed;top:0;left:0;width:100%;z-index:50;padding:16px 16px 0}
-.nav{max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(10,5,22,.62);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:999px;padding:8px 10px 8px 22px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
-.brand img{height:26px;width:auto;filter:invert(1);mix-blend-mode:screen}
+.nav{max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(10,5,22,.62);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:999px;padding:6px 10px 6px 18px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.brand img{height:44px;width:auto;display:block}
 .nav-btn,.shiny{font:700 13px/1 'Manrope',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px}
 .nav-btn{border:1px solid var(--line);background:linear-gradient(90deg,var(--p),#5b21b6);border-radius:999px;padding:12px 20px;transition:transform .15s,box-shadow .2s}
 .nav-btn:hover{box-shadow:0 0 28px rgba(125,42,232,.6)}.nav-btn:active{transform:scale(.97)}
@@ -192,7 +192,7 @@ main,footer{position:relative;z-index:1}
 .foot{border-top:1px solid #1b1228;background:#05020a;padding:60px 0 0;overflow:hidden;text-align:center}
 .foot-in p{color:var(--mut2);font-size:15px;margin-top:10px}
 .foot-in a{color:#c7b0ff;text-underline-offset:3px}
-.brand-f{height:30px;margin:0 auto 18px;filter:invert(1);mix-blend-mode:screen}
+.brand-f{height:80px;width:auto;margin:0 auto 18px}
 .copy{font-size:11px!important;letter-spacing:.14em;text-transform:uppercase;margin-top:22px!important}
 .giant{font:800 clamp(60px,15vw,210px)/1 'Manrope',sans-serif;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.1);margin-top:26px;white-space:nowrap;user-select:none;padding-bottom:10px}
 
@@ -210,7 +210,7 @@ main,footer{position:relative;z-index:1}
 }
 @media(max-width:640px){
   .sec{padding:72px 0}.wrap{padding:0 20px}
-  .nav{padding:7px 8px 7px 16px}.brand img{height:22px}
+  .nav{padding:6px 8px 6px 14px}.brand img{height:36px}
   .nav-btn{padding:11px 14px;font-size:11px}.nav-btn svg{display:none}
   .hero{padding:120px 0 70px;min-height:0}
   .shiny{padding:18px 26px;font-size:13px}
@@ -243,7 +243,7 @@ __lpTrack('PageView',800)})();
 
 <header class="nav-wrap">
   <nav class="nav">
-    <a class="brand" href="#topo" aria-label="FeedPacks"><img src="../assets/feedpacks-logo.png" alt="FeedPacks"></a>
+    <a class="brand" href="#topo" aria-label="FeedPacks"><img src="../assets/feedpacks-logo.png?v=2" alt="FeedPacks"></a>
     <button type="button" class="nav-btn" data-buy><span>Quero garantir por R$ 47</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></button>
   </nav>
 </header>
@@ -454,7 +454,7 @@ __lpTrack('PageView',800)})();
 
 <footer class="foot">
   <div class="wrap foot-in">
-    <img class="brand-f" src="../assets/feedpacks-logo.png" alt="FeedPacks">
+    <img class="brand-f" src="../assets/feedpacks-logo.png?v=2" alt="FeedPacks">
     <p>Contato: <a href="mailto:contatooriordigital@gmail.com">contatooriordigital@gmail.com</a></p>
     <p><a href="#">Termos e Condições</a></p>
     <p class="copy">Copyright Ⓒ 2026 · Todos os direitos reservados</p>
