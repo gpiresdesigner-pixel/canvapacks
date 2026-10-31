@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FeedPacks</title>
+<link rel="icon" href="../assets/feedpacks-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=" js"</script>
+<style>:root{--bg:#06030d;--ink:#fff;--mut:#a9a3b8;--mut2:#7d7790;--line:rgba(255,255,255,.1);--card:rgba(255,255,255,.04);--p:#7d2ae8;--p2:#9b5cff;--c:#00c4cc;--grad:linear-gradient(90deg,#7d2ae8,#00c4cc);--r:20px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--p);color:#fff}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,.brand,.eyebrow,.badge,.num,.tag{font-family:'Manrope',sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.wrap.narrow{max-width:820px}
+.center{text-align:center}
+
+/* fundo */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg i{position:absolute;display:block}
+.bg-grad{inset:0;background:linear-gradient(180deg,#14072b,#06030d 60%)}
+.stars{top:0;left:0;width:1px;height:1px;background:transparent;animation:star 60s linear infinite}
+.stars.s1{box-shadow:234px 124px #fff,654px 345px #fff,876px 12px #fff,1200px 800px #fff,400px 1500px #fff,1800px 200px #fff,100px 1000px #fff,900px 1900px #fff,500px 600px #fff,1400px 100px #fff,300px 400px #fff,1600px 1200px #fff;opacity:.7}
+.stars.s2{width:2px;height:2px;box-shadow:123px 456px #cfe,789px 234px #fff,456px 890px #fff,1100px 300px #cfe,200px 1200px #fff,1500px 500px #fff,600px 1700px #fff,1300px 900px #cfe;animation-duration:90s;opacity:.5}
+@keyframes star{to{transform:translateY(-2000px)}}
+.glow{border-radius:50%;filter:blur(130px)}
+.g1{width:820px;height:820px;left:50%;top:8%;transform:translateX(-50%);background:rgba(125,42,232,.16)}
+.g2{width:520px;height:520px;right:-120px;top:48%;background:rgba(0,196,204,.08)}
+.grid{inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(circle at 50% 30%,#000 30%,transparent 78%);mask-image:radial-gradient(circle at 50% 30%,#000 30%,transparent 78%)}
+main,footer{position:relative;z-index:1}
+.top-blur{position:fixed;z-index:40;inset:0 0 auto 0;height:110px;pointer-events:none;background:linear-gradient(to bottom,rgba(6,3,13,.85),transparent)}
+
+/* nav */
+.nav-wrap{position:fixed;top:0;left:0;width:100%;z-index:50;padding:16px 16px 0}
+.nav{max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(10,5,22,.62);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:999px;padding:8px 10px 8px 22px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.brand img{height:26px;width:auto;filter:invert(1);mix-blend-mode:screen}
+.nav-btn,.shiny{font:700 13px/1 'Manrope',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.nav-btn{border:1px solid var(--line);background:linear-gradient(90deg,var(--p),#5b21b6);border-radius:999px;padding:12px 20px;transition:transform .15s,box-shadow .2s}
+.nav-btn:hover{box-shadow:0 0 28px rgba(125,42,232,.6)}.nav-btn:active{transform:scale(.97)}
+.nav-btn svg,.shiny svg{width:15px;height:15px;transition:transform .2s}
+.nav-btn:hover svg,.shiny:hover svg{transform:translateX(3px)}
+
+/* botao com borda girando */
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes spin{to{--ang:360deg}}
+.shiny{--ang:0deg;position:relative;isolation:isolate;overflow:hidden;padding:20px 42px;border-radius:999px;border:2px solid transparent;background:linear-gradient(#0b0616,#0b0616) padding-box,conic-gradient(from var(--ang),transparent 0%,#7d2ae8 8%,#00c4cc 20%,#9b5cff 32%,transparent 42%,transparent 100%) border-box;animation:spin 2.6s linear infinite;box-shadow:0 0 40px rgba(125,42,232,.28);font-size:14px;transition:box-shadow .2s,transform .15s}
+.shiny::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(circle,#fff .5px,transparent 0);background-size:4px 4px;opacity:.1}
+.shiny:hover{box-shadow:0 0 56px rgba(0,196,204,.38)}.shiny:active{transform:scale(.98)}
+
+/* tipografia */
+.t-grad{background:linear-gradient(180deg,#fff 20%,rgba(255,255,255,.55));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.t-acc{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.h2{font-size:clamp(30px,4.6vw,52px);font-weight:700;letter-spacing:-.025em;line-height:1.12;margin-bottom:18px}
+.sub{font-size:clamp(17px,2vw,21px);color:var(--mut);max-width:760px;margin:0 auto 44px;font-weight:300}
+.lead{font-size:clamp(17px,1.9vw,20px);color:var(--mut);max-width:760px}
+.center .lead,.lead.center{margin-left:auto;margin-right:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:#e9defd;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+.tag{display:inline-block;font-weight:700;font-size:15px;color:#e9defd;margin-bottom:14px;letter-spacing:.01em}
+
+/* secoes */
+.sec{padding:104px 0}
+.sec.alt{background:linear-gradient(180deg,rgba(125,42,232,.07),rgba(125,42,232,.02));border-block:1px solid rgba(255,255,255,.05)}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border-radius:var(--r);padding:30px;transition:border-color .25s,transform .25s}
+.card:hover{border-color:rgba(155,92,255,.45)}
+.reveal{opacity:1}
+.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+/* hero */
+.hero{min-height:100svh;display:flex;align-items:center;padding:150px 0 90px}
+.hero-in{text-align:center}
+.hero h1{font-size:clamp(40px,7.4vw,92px);font-weight:700;letter-spacing:-.04em;line-height:1.05;margin-bottom:28px}
+.hero .lead{margin:0 auto 22px;font-size:clamp(18px,2.2vw,23px)}
+.secret{max-width:640px;margin:0 auto 40px;color:#c7b0ff;font-weight:500;font-size:clamp(15px,1.7vw,18px);padding:14px 22px;border:1px solid rgba(155,92,255,.3);border-radius:16px;background:rgba(125,42,232,.1)}
+.chips{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:900px;margin:52px auto 0}
+.chips li{font-size:14px;color:#d9d2ea;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:10px 16px}
+.chips u{text-decoration-color:var(--c);text-underline-offset:3px}
+
+/* bento dor */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pain .em{font-size:30px;display:block;margin-bottom:12px}
+.pain p,.relief p{color:#cfc8e0;font-size:16px}
+.relief{grid-column:1/-1;background:linear-gradient(135deg,rgba(125,42,232,.35),rgba(0,196,204,.16));border-color:rgba(155,92,255,.5)}
+.relief .em{font-size:30px;display:block;margin-bottom:10px}
+.relief .strong{margin-top:14px;color:#fff;font-weight:600;font-size:clamp(18px,2.2vw,24px);font-family:'Manrope',sans-serif}
+
+/* carrossel */
+.car{margin:10px 0 40px}
+.car-view{position:relative;padding:0 6px}
+.car-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.car-track::-webkit-scrollbar{display:none}
+.car-slide{flex:0 0 calc((100% - 48px)/4);scroll-snap-align:start}
+.car-slide img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(10,5,22,.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:background .2s}
+.car-btn:hover{background:var(--p)}
+.car-btn svg{width:18px;height:18px}
+.car-prev{left:-14px}.car-next{right:-14px}
+.car-nav{display:flex;justify-content:center;gap:8px;margin-top:22px;flex-wrap:wrap}
+.car-dot{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.2);cursor:pointer}
+.car-dot.on{background:var(--grad);transform:scale(1.3)}
+
+/* passos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px}
+.step{position:relative;overflow:hidden}
+.step .num{position:absolute;right:18px;top:6px;font-size:86px;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.12);line-height:1}
+.badge{display:inline-block;font-size:13px;font-weight:700;color:#0b0616;background:var(--grad);border-radius:999px;padding:6px 14px;margin-bottom:18px}
+.step h3{font-size:22px;margin-bottom:10px}
+.step p{color:var(--mut);font-size:15.5px}
+
+/* formatos */
+.feat{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center;margin-top:72px}
+.feat.flip .feat-txt{order:2}
+.feat h3{font-size:clamp(26px,3.2vw,38px);font-weight:700;letter-spacing:-.02em;margin-bottom:14px;line-height:1.15}
+.feat p{color:var(--mut);font-size:17px}
+.slider{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#0c0618;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.slider img{width:100%;height:auto;transition:opacity .35s}
+.s-btn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(10,5,22,.75);color:#fff;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-bottom:3px}
+.s-btn:hover{background:var(--p)}
+.s-prev{left:12px}.s-next{right:12px}
+
+/* itens inclusos */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.media{padding:20px}
+.m-img{border-radius:14px;overflow:hidden;background:#0c0618;margin-bottom:22px}
+.m-img img{width:100%;height:auto}
+.media h3{font-size:24px;margin-bottom:6px}
+.media p{color:var(--mut)}
+
+/* fepa */
+.fepa{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:center}
+.fepa .lead{margin-top:6px}
+.fepa-img{position:relative}
+.fepa-img::before{content:'';position:absolute;inset:-18px;border-radius:30px;background:var(--grad);opacity:.35;filter:blur(40px)}
+.fepa-img img{position:relative;border-radius:26px;border:1px solid rgba(255,255,255,.18);width:100%;aspect-ratio:4/5;object-fit:cover;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+
+/* profissionalize / personalizacao */
+.frame{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#0c0618;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.frame img{width:100%;height:auto}
+.pair{display:grid;grid-template-columns:.62fr 1fr;gap:28px;align-items:center}
+.note{max-width:760px;margin:6px auto}
+.note img{width:100%}
+.big{max-width:900px;margin:36px auto 26px}
+.punch{font:700 clamp(24px,3.4vw,38px)/1.2 'Manrope',sans-serif;margin-top:48px;letter-spacing:-.02em}
+.orig{display:grid;grid-template-columns:1fr 1.25fr;gap:32px;align-items:start}
+.adapt{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.adapt img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
+
+/* frase */
+.quote{padding:96px 0;background:linear-gradient(120deg,#7d2ae8,#5b1fc0 55%,#0aa7b0);text-align:center;position:relative;z-index:1}
+.quote h3{font:700 clamp(26px,4.4vw,50px)/1.18 'Manrope',sans-serif;letter-spacing:-.02em;max-width:900px;margin:0 auto 18px}
+.quote p{font-size:clamp(18px,2.2vw,24px);color:rgba(255,255,255,.88);font-weight:500}
+
+/* depoimentos */
+.deps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.deps img{width:100%;height:auto;border-radius:18px;border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+
+/* oferta */
+.price-card{position:relative;max-width:980px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:0;border-radius:26px;border:1px solid rgba(155,92,255,.55);background:linear-gradient(180deg,rgba(125,42,232,.16),rgba(10,5,22,.8));box-shadow:0 0 70px rgba(125,42,232,.22);overflow:hidden}
+.pc-title{grid-column:1;font-size:clamp(20px,2.2vw,26px);padding:34px 40px 0;font-weight:700}
+.list{list-style:none;padding:26px 40px 38px}
+.list li{display:flex;gap:14px;align-items:flex-start;color:#e4ddf3;margin-bottom:14px;font-size:16.5px;line-height:1.45}
+.list svg,.mini svg{flex:0 0 22px;width:22px;height:22px;color:var(--c);margin-top:1px}
+.price{grid-column:2;grid-row:1/3;padding:36px 36px 40px;text-align:center;border-left:1px solid var(--line);background:rgba(0,0,0,.28);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.from{font-size:20px;color:var(--mut)}.from s{color:#ff8fa3;text-decoration-thickness:2px}
+.now{font:800 clamp(52px,7vw,76px)/1.05 'Manrope',sans-serif;margin:8px 0 26px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;letter-spacing:-.03em}
+.price .shiny{padding:18px 26px;font-size:13px;text-align:center;line-height:1.25}
+.mini{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.mini li{display:flex;gap:10px;align-items:center;color:#d9d2ea;font-size:15px}
+
+/* faq */
+.faq{display:flex;flex-direction:column;gap:12px}
+.faq details{border:1px solid var(--line);border-radius:16px;background:var(--card);transition:border-color .2s}
+.faq details[open]{border-color:rgba(155,92,255,.55);background:rgba(125,42,232,.08)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;font-weight:600;font-size:17px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{flex:0 0 20px;width:20px;height:20px;color:var(--c);transition:transform .25s}
+.faq details[open] summary svg{transform:rotate(45deg)}
+.faq details p{padding:0 24px 22px;color:var(--mut);font-size:16px}
+
+/* final */
+.final{padding:120px 0;text-align:center;background:radial-gradient(60% 90% at 50% 100%,rgba(125,42,232,.32),transparent),rgba(0,0,0,.35);border-top:1px solid rgba(255,255,255,.06);position:relative;z-index:1}
+.final .h2{font-size:clamp(34px,6vw,68px)}
+
+/* rodape */
+.foot{border-top:1px solid #1b1228;background:#05020a;padding:60px 0 0;overflow:hidden;text-align:center}
+.foot-in p{color:var(--mut2);font-size:15px;margin-top:10px}
+.foot-in a{color:#c7b0ff;text-underline-offset:3px}
+.brand-f{height:30px;margin:0 auto 18px;filter:invert(1);mix-blend-mode:screen}
+.copy{font-size:11px!important;letter-spacing:.14em;text-transform:uppercase;margin-top:22px!important}
+.giant{font:800 clamp(60px,15vw,210px)/1 'Manrope',sans-serif;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.1);margin-top:26px;white-space:nowrap;user-select:none;padding-bottom:10px}
+
+/* responsivo */
+@media(max-width:960px){
+  .bento,.steps,.deps{grid-template-columns:1fr}
+  .feat,.feat.flip,.fepa,.pair,.orig,.duo,.price-card{grid-template-columns:1fr}
+  .feat.flip .feat-txt{order:0}
+  .feat{gap:26px;margin-top:56px}
+  .fepa{gap:40px}.fepa-img{max-width:380px;margin:0 auto}
+  .price{grid-column:1;grid-row:auto;border-left:0;border-top:1px solid var(--line)}
+  .pair{gap:22px}.pair-a{max-width:340px}
+  .deps{max-width:520px;margin:0 auto}
+  .car-slide{flex:0 0 calc((100% - 16px)/2)}
+}
+@media(max-width:640px){
+  .sec{padding:72px 0}.wrap{padding:0 20px}
+  .nav{padding:7px 8px 7px 16px}.brand img{height:22px}
+  .nav-btn{padding:11px 14px;font-size:11px}.nav-btn svg{display:none}
+  .hero{padding:120px 0 70px;min-height:0}
+  .shiny{padding:18px 26px;font-size:13px}
+  .car-slide{flex:0 0 100%}.car-track{gap:0}
+  .car-prev{left:8px}.car-next{right:8px}.car-nav{display:none}
+  .pc-title{padding:28px 24px 0}.list{padding:22px 24px 30px}.price{padding:30px 24px 34px}
+  .step .num{font-size:70px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js .reveal{opacity:1;transform:none}}
+</style>
+<script>/*lp-pixel*/
+(function(){var PIXEL_ID='1771306594128256';window.__lpPixel=PIXEL_ID;if(!PIXEL_ID)return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init',PIXEL_ID);
+function ck(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?decodeURIComponent(m[1]):''}
+function fbc(){var c=ck('_fbc');if(c)return c;var id=new URLSearchParams(location.search).get('fbclid');return id?'fb.1.'+Date.now()+'.'+id:''}
+function st(){try{return JSON.parse(localStorage.getItem('lp_utms')||'{}')}catch(e){return{}}}
+/* mesmo event_id no pixel e na API de Conversoes: a Meta deduplica */
+window.__lpTrack=function(name,wait){var id='lp'+Date.now().toString(36)+Math.random().toString(36).slice(2,10);
+ try{fbq('track',name,{},{eventID:id})}catch(e){}
+ function send(){var u=st(),d={event_name:name,event_id:id,url:location.href,fbp:ck('_fbp'),fbc:fbc()};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(u[k])d[k]=u[k]});
+  try{fetch('/api/meta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d),keepalive:true}).catch(function(){})}catch(e){}}
+ if(wait)setTimeout(send,wait);else send()};
+__lpTrack('PageView',800)})();
+</script>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="bg-grad"></i><i class="stars s1"></i><i class="stars s2"></i><i class="glow g1"></i><i class="glow g2"></i><i class="grid"></i></div>
+<div class="top-blur" aria-hidden="true"></div>
+
+<header class="nav-wrap">
+  <nav class="nav">
+    <a class="brand" href="#topo" aria-label="FeedPacks"><img src="../assets/feedpacks-logo.png" alt="FeedPacks"></a>
+    <button type="button" class="nav-btn" data-buy><span>Quero garantir por R$ 47</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></button>
+  </nav>
+</header>
+
+<main id="topo">
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <h1 class="reveal"><span class="t-grad">Torne</span> <span class="t-acc">Seu Perfil Profissional</span> <span class="t-grad">Ainda Hoje!</span></h1>
+    <p class="lead reveal">Transforme o visual do seu perfil com modelos editáveis no Canva e construa uma presença mais profissional no seu nicho</p>
+    <p class="secret reveal">O segredo que ninguém admite: O Instagram é a rede social da aparência, não somente de conteúdo</p>
+    <div class="reveal"><a class="shiny" href="#preco"><span>Quero garantir por R$ 47</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a></div>
+    <ul class="chips reveal">
+      <li>⚡ Modelos por <u>estilo e área profissional</u></li>
+      <li>⚡ Atualizados para o <u>formato retrato</u></li>
+      <li>⚡ Use pelo celular, computador ou tablet</li>
+      <li>⚡ E-books, carrosséis, apresentações e mais</li>
+      <li>⚡ Edite no <u>Canva</u> (alguns recursos dependem do plano)</li>
+      <li>⚡ <u>Suporte por e-mail</u></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 2. DOR -->
+<section class="sec">
+  <div class="wrap">
+    <h2 class="h2 center reveal"><span class="t-grad">Cansada de perder horas do seu dia criando conteúdo?</span> 😰</h2>
+    <p class="sub center reveal">Você já sabe que precisa estar nas redes sociais para atrair mais seguidores e clientes para o seu negócio...</p>
+    <div class="bento">
+      <div class="card pain reveal"><span class="em">👀</span><p>Vê todos os seus concorrentes criando postagens incríveis e crescendo nas redes sociais mas o seu perfil parece não sair do lugar?</p></div>
+      <div class="card pain reveal"><span class="em">⏳</span><p>Quer ter um perfil bonito e atrativo, mas passa horas no Canva e nada fica realmente interessante e profissional?</p></div>
+      <div class="card pain reveal"><span class="em">🫠</span><p>Já comprou um Pack de Posts antes mas ele não tinha nada interessante ou que de fato combinasse com o seu perfil?</p></div>
+      <div class="card relief reveal"><span class="em">✋</span><p>Calma! Você não precisa mais passar horas do seu dia para fazer uma postagem ruim e nem postar qualquer coisa.</p><p class="strong">Com o FeedPacks você parte de modelos prontos e editáveis para criar conteúdos mais profissionais com menos esforço.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. IDENTIDADES VISUAIS -->
+<section class="sec alt">
+  <div class="wrap">
+    <div class="center reveal"><span class="eyebrow">Identidades visuais</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">Veja uma prévia dos modelos de posts que você vai receber</span> 🤩</h2>
+    <div class="car reveal" id="car">
+      <div class="car-view"><div class="car-track"><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857593159-8lz497kk05f.webp" alt="Modelo 1" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857590621-s1in8umgv1a.webp" alt="Modelo 2" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857578053-amzeessassm.webp" alt="Modelo 3" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857594372-h2m17st3m7e.webp" alt="Modelo 4" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857580570-m7pcg8yn57.webp" alt="Modelo 5" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857596373-ofp0qxct3zi.webp" alt="Modelo 6" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857588988-3ghtjv4r2kn.webp" alt="Modelo 7" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857596807-cnisemzf256.webp" alt="Modelo 8" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857589406-zz87y6kq82c.webp" alt="Modelo 9" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857589794-ccqzuak7d.webp" alt="Modelo 10" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857581004-ifr0gn11cqd.webp" alt="Modelo 11" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857590244-l6eyajtqxnn.webp" alt="Modelo 12" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857594751-91o6nz9zsyk.webp" alt="Modelo 13" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857598047-c7ffo13fql7.webp" alt="Modelo 14" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857579727-6rb6endej7q.webp" alt="Modelo 15" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857585502-i8kad0trvq.webp" alt="Modelo 16" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857580155-68y06hzaxn7.webp" alt="Modelo 17" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857587714-21g95s5zwr2j.webp" alt="Modelo 18" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857585003-md0zddj5r8.webp" alt="Modelo 19" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857595948-8mujx73dmn8.webp" alt="Modelo 20" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857586836-gl4gv0skkxs.webp" alt="Modelo 21" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857587260-ii853s7p57.webp" alt="Modelo 22" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857588580-ime2op9nu4f.webp" alt="Modelo 23" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857578473-swrol8qsie.webp" alt="Modelo 24" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857578837-78kp14lg756.webp" alt="Modelo 25" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857585907-yplyrssdo6.webp" alt="Modelo 26" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857586298-niqzhasdba.webp" alt="Modelo 27" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857597199-t3yv3alagmr.webp" alt="Modelo 28" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857577435-tgqln4crm8f.webp" alt="Modelo 29" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857581712-l53xn3vyjof.webp" alt="Modelo 30" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857582179-u0k4fmctu7.webp" alt="Modelo 31" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857591899-g3hiep148ks.webp" alt="Modelo 32" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857579324-r34x8f3mutf.webp" alt="Modelo 33" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857591163-hlg2rfd90ac.webp" alt="Modelo 34" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857597593-66ugvxhju1p.webp" alt="Modelo 35" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857592339-h1v0e2miowr.webp" alt="Modelo 36" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857583165-ni70733zxdr.webp" alt="Modelo 37" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857582642-068kkisc6upe.webp" alt="Modelo 38" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857583661-0fgwc9yu10o9.webp" alt="Modelo 39" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857576965-fefinannr3s.webp" alt="Modelo 40" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857595139-agx0u9nmkav.webp" alt="Modelo 41" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857593569-9whuhs62jn9.webp" alt="Modelo 42" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857588163-9c6m666qm0f.webp" alt="Modelo 43" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857593994-5ab1g84iw2o.webp" alt="Modelo 44" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857584066-jhv5kmk888.webp" alt="Modelo 45" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857592766-if7ucmmzzv8.webp" alt="Modelo 46" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857595564-swgwu8vtvd.webp" alt="Modelo 47" loading="lazy" width="400" height="500"></div><div class="car-slide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857584598-5ddf71px4lc.webp" alt="Modelo 48" loading="lazy" width="400" height="500"></div></div>
+        <button type="button" class="car-btn car-prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button type="button" class="car-btn car-next" aria-label="Próximo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+      </div>
+      <div class="car-nav"></div>
+    </div>
+    <p class="lead center reveal">Modelos organizados por estilo e área profissional, prontos para editar no Canva</p>
+  </div>
+</section>
+
+<!-- 4. COMO USAR -->
+<section class="sec">
+  <div class="wrap">
+    <div class="center reveal"><span class="eyebrow">Como usar?</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">Basta seguir esses 3 passos simples</span> ✨</h2>
+    <p class="sub center reveal">Para transformar qualquer conteúdo em um Post Altamente Profissional</p>
+    <div class="steps">
+      <div class="card step reveal"><span class="num">01</span><span class="badge">Passo.01 📲</span><h3>Acesse a nossa plataforma</h3><p>Você receberá acesso a uma plataforma recheada de conteúdos, tutoriais e os melhores modelos de posts para você usar quando e onde quiser.</p></div>
+      <div class="card step reveal"><span class="num">02</span><span class="badge">Passo.02 🔎</span><h3>Escolha seus modelos</h3><p>Você vai escolher a sua identidade visual e os seus modelos de posts favoritos. OBS.: vai poder usar todos os packs e modelos que desejar.</p></div>
+      <div class="card step reveal"><span class="num">03</span><span class="badge">Passo.03 🎨</span><h3>Edite seu post</h3><p>Você vai receber a arte do seu post pronta, mas poderá personalizar adicionando suas fotos, seus títulos e alterando para as cores que desejar.</p></div>
+    </div>
+    <div class="center reveal"><button type="button" class="shiny" data-buy><span>Quero garantir por R$ 47</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></button></div>
+  </div>
+</section>
+
+<!-- 5. FORMATOS -->
+<section class="sec alt">
+  <div class="wrap">
+    <h2 class="h2 center reveal"><span class="t-grad">Seu conteúdo em diferentes formatos</span> 🎯</h2>
+    <p class="sub center reveal">Você vai se surpreender com tudo que vai receber...</p>
+    <div class="feat reveal"><div class="feat-txt"><span class="eyebrow">Formato Carrossel</span><h3>Modelos de Post Carrossel</h3><p>Esse formato permite contar histórias de forma sequencial, aprofundar temas complexos e destacar múltiplos benefícios de um produto ou serviço em um único post.</p></div><div class="feat-img"><div class="slider" data-slides="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857600931-kl404p998as.webp|../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857601429-qaiek2xmlbm.webp|../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857601927-ky3bp3esfo.webp|../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857602421-3cpxn3j8ebn.webp|../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857603011-jqhvd4veni.webp"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857600931-kl404p998as.webp" alt="Modelos de Post Carrossel" loading="lazy"><button type="button" class="s-btn s-prev" aria-label="Anterior">&#8249;</button><button type="button" class="s-btn s-next" aria-label="Próximo">&#8250;</button></div></div></div>
+    <div class="feat flip reveal"><div class="feat-txt"><span class="eyebrow">Formato Tweet</span><h3>Postagens ao Estilo Tweet</h3><p>O tipo de post que faz sucesso pela praticidade em expressar seus pensamentos e acontecimentos do cotidiano.</p></div><div class="feat-img"><div class="slider" data-slides="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857598543-zunhhijrtyi.webp|../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857599106-9d3cpznxgvk.webp"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857598543-zunhhijrtyi.webp" alt="Postagens ao Estilo Tweet" loading="lazy"><button type="button" class="s-btn s-prev" aria-label="Anterior">&#8249;</button><button type="button" class="s-btn s-next" aria-label="Próximo">&#8250;</button></div></div></div>
+    <div class="feat reveal"><div class="feat-txt"><span class="eyebrow">Formato Bloco de Notas</span><h3>Postagens em Bloco de Notas</h3><p>Acredite, os maiores perfis que você vê criando esse tipo de post não fazem no bloco de notas do celular.</p></div><div class="feat-img"><div class="slider" data-slides="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857599530-jno0uzrpru.webp|../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857600021-8cjep1jdsmw.webp"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857599530-jno0uzrpru.webp" alt="Postagens em Bloco de Notas" loading="lazy"><button type="button" class="s-btn s-prev" aria-label="Anterior">&#8249;</button><button type="button" class="s-btn s-next" aria-label="Próximo">&#8250;</button></div></div></div>
+  </div>
+</section>
+
+<!-- 6. MAIS ITENS INCLUSOS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="center reveal"><span class="eyebrow">Mais itens inclusos</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">Soluções para um conteúdo integrado</span> 🔗</h2>
+    <p class="sub center reveal">Nunca foi tão fácil ter um perfil de destaque!</p>
+    <div class="duo">
+      <div class="card media reveal"><div class="m-img"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857603932-onh9xf8ewi.webp" alt="Mini sites para a bio" loading="lazy"></div><h3>Mini sites para a bio</h3><p>Modelos editáveis com 1 clique</p></div>
+      <div class="card media reveal"><div class="m-img"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857603484-hnv81mfhn7p.webp" alt="E-books editáveis" loading="lazy"></div><h3>E-books editáveis</h3><p>Modelos 100% editáveis</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FEPA -->
+<section class="sec alt">
+  <div class="wrap fepa">
+    <div class="fepa-txt reveal">
+      <span class="eyebrow">Bônus: conheça a Fepa</span>
+      <h2 class="h2"><span class="t-grad">Deu branco? A Fepa ajuda suas ideias a virarem conteúdo!</span></h2>
+      <p class="lead">Você já tem os modelos. Agora, conte com a Fepa para dar vida às suas ideias! Sua assistente de inteligência artificial ajuda com ideias de posts, legendas, Stories, roteiros de Reels e um planejamento semanal para o seu negócio. Converse, peça sugestões e adapte os textos aos templates. Você revisa e publica; a Fepa não publica nem agenda posts.</p>
+    </div>
+    <div class="fepa-img reveal"><img src="../revisao-assets/fepa.png" alt="Fepa, assistente de inteligência artificial do FeedPacks" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- 8. PROFISSIONALIZE -->
+<section class="sec">
+  <div class="wrap">
+    <div class="center reveal"><span class="eyebrow">Profissionalize o seu Perfil</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">Saia do amadorismo</span> 🤯</h2>
+    <p class="sub center reveal">Adapte para o seu nicho ou negócio com poucos ajustes</p>
+    <div class="pair reveal">
+      <div class="pair-a"><span class="tag">Pack Gradiente Green</span><div class="frame"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857591163-hlg2rfd90ac.webp" alt="Pack Gradiente Green" loading="lazy"></div></div>
+      <div class="pair-b"><span class="tag">Adaptado para o perfil do Anderson</span><div class="frame wide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857604965-6onlpsmbf05.webp" alt="Adaptado para o perfil do Anderson" loading="lazy"></div></div>
+    </div>
+    <div class="note reveal"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857605428-2cbb1u2uhpi.png" alt="Ele troca as cores, adicione seus textos e fotos e pronto! Tudo personalizado para o seu perfil" loading="lazy"></div>
+    <div class="pair reveal">
+      <div class="pair-a"><span class="tag">Pack Minimalista Elegante</span><div class="frame"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857593159-8lz497kk05f.webp" alt="Pack Minimalista Elegante" loading="lazy"></div></div>
+      <div class="pair-b"><span class="tag">Adaptado para o perfil da Cintia</span><div class="frame wide"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857605839-uz96ksn5qxa.webp" alt="Adaptado para o perfil da Cintia" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. ADICIONE SUAS FOTOS -->
+<section class="sec alt">
+  <div class="wrap">
+    <h2 class="h2 center reveal"><span class="t-grad">Adicione suas fotos e seus textos. Troque as cores, os elementos e deixe tudo do seu jeito!</span></h2>
+    <div class="frame wide big reveal"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857606816-c6lkzc2g63a.webp" alt="Exemplo de personalização" loading="lazy"></div>
+    <p class="lead center reveal">Mudanças simples transformam cada post em um conteúdo único!</p>
+    <div class="frame wide big reveal"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857606378-v6zaazvoppc.webp" alt="Exemplo de personalização" loading="lazy"></div>
+    <p class="lead center reveal">O mesmo modelo com cores, elementos e fontes diferentes!</p>
+    <p class="punch center reveal"><span class="t-acc">O seu conteúdo terá a sua personalidade, o seu estilo!</span></p>
+  </div>
+</section>
+
+<!-- 10. PERSONALIZE -->
+<section class="sec">
+  <div class="wrap">
+    <div class="center reveal"><span class="eyebrow">Personalize o seu modelo</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">Um modelo, infinitas possibilidades</span> 💡</h2>
+    <p class="sub center reveal">Veja um exemplo de como você pode adaptar qualquer template para o seu perfil</p>
+    <div class="orig reveal">
+      <div class="orig-a"><span class="tag">Modelo Original</span><div class="frame"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857609706-6xxnwa0f68i.webp" alt="Modelo Original" loading="lazy"></div></div>
+      <div class="orig-b"><span class="tag">Adaptações</span><div class="adapt"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857607313-vev2a2xs1mj.webp" alt="Adaptação 1" loading="lazy"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857608854-jqj1owkvvsr.webp" alt="Adaptação 2" loading="lazy"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857609284-gqa8y6k5klp.webp" alt="Adaptação 3" loading="lazy"><img src="../assets/edyphemspqljhibvbrnt/storage/v1/object/public/hubzek-media-library/f5cd2f5e-c86b-4883-a4e1-63c032397491/imported-1792857607858-5m3m5gzjqgr.webp" alt="Adaptação 4" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11. FRASE -->
+<section class="quote">
+  <div class="wrap">
+    <h3 class="reveal">&ldquo;O FeedPacks é muito mais do que um pacote de templates&rdquo;</h3>
+    <p class="reveal">é a solução completa para um Perfil Profissional</p>
+  </div>
+</section>
+
+<!-- 12. DEPOIMENTOS -->
+<section class="sec alt">
+  <div class="wrap">
+    <div class="center reveal"><span class="eyebrow">Quem compra, recomenda!</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">Eu</span> 💙 <span class="t-grad">receber essas mensagens</span></h2>
+    <p class="sub center reveal">Depoimentos Reais, de pessoas que assim como você desejavam de uma vez por todas ter <b class="t-acc">Destaque nas Redes Sociais</b>!</p>
+    <div class="deps">
+      <img class="reveal" src="../assets/depoimentos/depoimento-1.jpeg" alt="Depoimento 1" loading="lazy">
+      <img class="reveal" src="../assets/depoimentos/depoimento-2.jpeg" alt="Depoimento 2" loading="lazy">
+      <img class="reveal" src="../assets/depoimentos/depoimento-3.jpeg" alt="Depoimento 3" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- 13. OFERTA -->
+<section class="sec offer" id="preco">
+  <div class="wrap">
+    <div class="center reveal"><span class="eyebrow">Acesso imediato</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">A solução completa para um perfil impecável</span></h2>
+    <p class="sub center reveal">Tenha tudo que você precisa em um só lugar...</p>
+    <div class="price-card reveal">
+      <h3 class="pc-title">Veja tudo que você vai receber 👀</h3>
+      <ul class="list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Modelos de posts organizados por estilo e área profissional</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>E-books editáveis</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Cartões virtuais</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Mini sites para bio</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Carrosséis editáveis</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Apresentações editáveis</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Tutoriais para começar e personalizar no Canva</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Fepa: assistente de IA para ideias, textos e planejamento</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg><span>Suporte por e-mail</span></li></ul>
+      <div class="price">
+        <p class="from">De <s>R$ 97</s> por apenas</p>
+        <p class="now">R$47,00</p>
+        <button type="button" class="shiny" data-buy><span>Quero garantir por R$ 47</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></button>
+        <ul class="mini"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg> Pagamento único</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg> Edite no Canva</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg> Acesso imediato</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14. FAQ -->
+<section class="sec">
+  <div class="wrap narrow">
+    <div class="center reveal"><span class="eyebrow">Perguntas frequentes</span></div>
+    <h2 class="h2 center reveal"><span class="t-grad">Tem alguma dúvida?</span></h2>
+    <p class="sub center reveal">Reunimos as principais perguntas de quem está conhecendo o FeedPacks...</p>
+    <div class="faq reveal"><details><summary><span>Preciso da versão paga do Canva?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary><p>Você pode começar a editar pela versão gratuita do Canva, mas alguns recursos, elementos ou ferramentas podem depender do plano. Confira o que está disponível na sua conta.</p></details><details><summary><span>Como vou receber acesso?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary><p>Você vai receber um e-mail com acesso à nossa plataforma, onde todos os templates estarão divididos por categorias.</p></details><details><summary><span>Posso usar pelo celular?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary><p>Sim, você pode usar tanto pelo celular quanto pelo computador ou tablet.</p></details><details><summary><span>Por quanto tempo terei acesso?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary><p>Você terá acesso vitalício ao FeedPacks.</p></details><details><summary><span>Recebo todos os materiais da oferta?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary><p>Sim, você recebe acesso a todos os materiais listados na oferta, organizados por categoria.</p></details></div>
+  </div>
+</section>
+
+<!-- 15. FECHAMENTO -->
+<section class="final">
+  <div class="wrap center">
+    <h2 class="h2 reveal"><span class="t-grad">Chegou a hora da mudança</span></h2>
+    <p class="sub reveal">Tenha um perfil mais profissional, com modelos editáveis para o seu dia a dia nas redes sociais!</p>
+    <div class="reveal"><button type="button" class="shiny" data-buy><span>Quero garantir por R$ 47</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></button></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <img class="brand-f" src="../assets/feedpacks-logo.png" alt="FeedPacks">
+    <p>Contato: <a href="mailto:contatooriordigital@gmail.com">contatooriordigital@gmail.com</a></p>
+    <p><a href="#">Termos e Condições</a></p>
+    <p class="copy">Copyright Ⓒ 2026 · Todos os direitos reservados</p>
+  </div>
+  <div class="giant" aria-hidden="true">FEEDPACKS</div>
+</footer>
+
+<script>(function(){
+/* aparecer ao rolar */
+var els=[].slice.call(document.querySelectorAll('.reveal'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.05});els.forEach(function(e){io.observe(e)})}else{els.forEach(function(e){e.classList.add('in')})}
+
+/* carrossel de modelos: 4 por cena no desktop, 2 no tablet, 1 no celular */
+(function(){var car=document.getElementById('car');if(!car)return;
+var tr=car.querySelector('.car-track'),sl=[].slice.call(tr.children),nav=car.querySelector('.car-nav'),cur=0,pv=0;
+function PV(){var w=document.documentElement.clientWidth;return w<=640?1:w<=960?2:4}
+function pages(){return Math.ceil(sl.length/pv)}
+function go(p,smooth){p=(p+pages())%pages();cur=p;tr.scrollTo({left:sl[p*pv].offsetLeft-sl[0].offsetLeft,behavior:smooth===false?'auto':'smooth'});mark()}
+function mark(){nav.querySelectorAll('.car-dot').forEach(function(d,i){d.classList.toggle('on',i===cur)})}
+function build(){pv=PV();nav.innerHTML='';for(var i=0;i<pages();i++){(function(i){var b=document.createElement('button');b.type='button';b.className='car-dot';b.setAttribute('aria-label','Cena '+(i+1));b.onclick=function(){go(i)};nav.appendChild(b)})(i)}go(Math.min(cur,pages()-1),false)}
+car.querySelector('.car-prev').onclick=function(){go(cur-1)};
+car.querySelector('.car-next').onclick=function(){go(cur+1)};
+var t;tr.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){var w=sl[pv].offsetLeft-sl[0].offsetLeft||1;var p=Math.round(tr.scrollLeft/w);if(p!==cur){cur=Math.max(0,Math.min(p,pages()-1));mark()}},80)});
+addEventListener('resize',function(){if(PV()!==pv)build()});build()})();
+
+/* sliders de formato (troca de imagens) */
+[].slice.call(document.querySelectorAll('.slider')).forEach(function(s){var L=s.dataset.slides.split('|'),im=s.querySelector('img'),i=0,tm;if(L.length<2)return;
+L.forEach(function(u){new Image().src=u});
+function go(n){i=(n+L.length)%L.length;im.style.opacity=.15;setTimeout(function(){im.src=L[i];im.style.opacity=1},140)}
+function arm(){clearInterval(tm);tm=setInterval(function(){go(i+1)},3000)}
+s.querySelector('.s-prev').onclick=function(){go(i-1);arm()};s.querySelector('.s-next').onclick=function(){go(i+1);arm()};arm()});
+
+/* compra: leva os UTMs para o checkout */
+var U='https://pay.hub.la/Iy7YNAeDPbxXFhsYKxWf',K=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','src','sck'],S='lp_utms';
+function st(){try{return JSON.parse(localStorage.getItem(S)||'{}')}catch(e){return{}}}
+var q=new URLSearchParams(location.search),cur={},saved=st(),hit=false;
+K.forEach(function(k){var v=q.get(k);if(v){cur[k]=v;hit=true}});
+if(hit){saved=cur;try{localStorage.setItem(S,JSON.stringify(cur))}catch(e){}}
+function url(){var u=new URL(U);K.forEach(function(k){if(saved[k])u.searchParams.set(k,saved[k])});return u.toString()}
+[].slice.call(document.querySelectorAll('[data-buy]')).forEach(function(b){b.addEventListener('click',function(){location.href=url()})});
+window.__lpCheckoutUrl=url;
+})();
+</script>
+</body>
+</html>
