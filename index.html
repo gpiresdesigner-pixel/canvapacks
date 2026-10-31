@@ -33,18 +33,27 @@ html.lp-m .lp-list ul{flex:none;width:100%}
 html.lp-m .lp-list li{margin-bottom:12px}
 </style><script>/*lp-pixel*/
 (function(){var PIXEL_ID='1771306594128256';window.__lpPixel=PIXEL_ID;if(!PIXEL_ID)return;
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init',PIXEL_ID);
 function ck(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?decodeURIComponent(m[1]):''}
-function fbc(){var c=ck('_fbc');if(c)return c;var id=new URLSearchParams(location.search).get('fbclid');return id?'fb.1.'+Date.now()+'.'+id:''}
+function setck(n,v,days){try{document.cookie=n+'='+encodeURIComponent(v)+';max-age='+days*86400+';path=/;SameSite=Lax'+(location.protocol==='https:'?';Secure':'')}catch(e){}}
 function st(){try{return JSON.parse(localStorage.getItem('lp_utms')||'{}')}catch(e){return{}}}
+/* id proprio e persistente do visitante (external_id): melhora a correspondencia de eventos */
+function eid(){var v=ck('lp_eid');try{v=v||localStorage.getItem('lp_eid')}catch(e){}
+ if(!v){v=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():('e'+Date.now().toString(36)+Math.random().toString(36).slice(2,12))}
+ setck('lp_eid',v,365);try{localStorage.setItem('lp_eid',v)}catch(e){}return v}
+/* cookie _fbc a partir do fbclid da URL (o pixel mantem/renova o _fbp) */
+function fbcFromUrl(){var id=new URLSearchParams(location.search).get('fbclid');if(!id)return '';var c=ck('_fbc');if(c&&c.split('.').pop()===id)return c;c='fb.1.'+Date.now()+'.'+id;setck('_fbc',c,90);return c}
+var EID=eid();fbcFromUrl();
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init',PIXEL_ID,{external_id:EID});
 /* mesmo event_id no pixel e na API de Conversoes: a Meta deduplica */
-window.__lpTrack=function(name){var id='lp'+Date.now().toString(36)+Math.random().toString(36).slice(2,10),sent=false;
+window.__lpTrack=function(name){var id='lp'+Date.now().toString(36)+Math.random().toString(36).slice(2,10),sent=false,tries=0;
  try{fbq('track',name,{},{eventID:id})}catch(e){}
  /* API de Conversoes: so depois que a pagina carregou (fora do caminho critico); sendBeacon nao bloqueia nada */
- function send(){if(sent)return;sent=true;var u=st(),d={event_name:name,event_id:id,url:location.href,fbp:ck('_fbp'),fbc:fbc()};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(u[k])d[k]=u[k]});
+ function send(){if(sent)return;sent=true;var u=st(),d={event_name:name,event_id:id,url:location.href,referrer:document.referrer,external_id:EID,fbp:ck('_fbp'),fbc:ck('_fbc')||fbcFromUrl()};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(u[k])d[k]=u[k]});
   var j=JSON.stringify(d);try{if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/meta',new Blob([j],{type:'application/json'}))))fetch('/api/meta',{method:'POST',headers:{'Content-Type':'application/json'},body:j,keepalive:true}).catch(function(){})}catch(e){}}
- function later(){(window.requestIdleCallback||function(f){setTimeout(f,1200)})(send,{timeout:3000})}
+ /* espera o pixel gravar o cookie _fbp (ate ~2s) antes de enviar */
+ function wait(){if(sent)return;if(ck('_fbp')||++tries>5)send();else setTimeout(wait,400)}
+ function later(){(window.requestIdleCallback||function(f){setTimeout(f,1200)})(wait,{timeout:3000})}
  if(document.readyState==='complete')later();else addEventListener('load',later);
  addEventListener('pagehide',send)};
 __lpTrack('PageView')})();
